@@ -10,7 +10,7 @@ interface StrengthMeterProps {
   entropy: number
 }
 
-export function StrengthMeter({ score, strengthLabel, entropy }: StrengthMeterProps) {
+export function StrengthMeter({ score, entropy }: StrengthMeterProps) {
   const getColor = () => {
     if (score < 20) return "bg-red-500"
     if (score < 40) return "bg-orange-500"

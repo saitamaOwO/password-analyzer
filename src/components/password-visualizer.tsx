@@ -23,7 +23,8 @@ export function PasswordVisualizer({ password, score }: PasswordVisualizerProps)
   } | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    const container = containerRef.current
+    if (!container) return
 
     // Clean up previous scene if it exists
     if (sceneRef.current) {
@@ -37,15 +38,15 @@ export function PasswordVisualizer({ password, score }: PasswordVisualizerProps)
       particlesMaterial?.dispose()
       renderer.dispose()
       // Safely remove renderer element if it exists and is a child
-      if (renderer.domElement.parentNode === containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement)
+      if (renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement)
       }
       sceneRef.current = null
     }
 
     // Set up new scene
-    const width = containerRef.current.clientWidth
-    const height = containerRef.current.clientHeight
+    const width = container.clientWidth
+    const height = container.clientHeight
 
     // Create scene
     const scene = new THREE.Scene()
@@ -58,7 +59,7 @@ export function PasswordVisualizer({ password, score }: PasswordVisualizerProps)
     // Create renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(width, height)
-    containerRef.current.appendChild(renderer.domElement)
+    container.appendChild(renderer.domElement)
 
     // Add lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
@@ -152,9 +153,9 @@ export function PasswordVisualizer({ password, score }: PasswordVisualizerProps)
 
     // Handle window resize
     const handleResize = () => {
-      if (!containerRef.current) return
-      const width = containerRef.current.clientWidth
-      const height = containerRef.current.clientHeight
+      if (!container) return
+      const width = container.clientWidth
+      const height = container.clientHeight
       camera.aspect = width / height
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
@@ -181,8 +182,8 @@ export function PasswordVisualizer({ password, score }: PasswordVisualizerProps)
       if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId)
       }
-      if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement)
+      if (container && renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement)
       }
       material.dispose()
       geometry.dispose()
